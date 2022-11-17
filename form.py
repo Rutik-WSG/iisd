@@ -13,9 +13,17 @@ db.init_app(app)
 
 
 
-
+organaistion=("org1","org2","org3","org4","org5","org6")
+industry=("IT","com","civil","mech","sofwere","devlop")
 category = ('Ipledge to1', 'Ipledge to2', 'Ipledge to3', 'Ipledge to4')
-class nomineter(db.Document):
+class nomine(db.Document):
+    organaistion=db.StringField()
+    organaistion_name=db.StringField()
+    industry=db.StringField()
+    DOB_incorportion=db.StringField()
+    
+    
+
     name = db.StringField()
     DOB=db.StringField()
     email = db.StringField()
@@ -40,7 +48,8 @@ class nomineter(db.Document):
     
     
     def to_json(self):
-        return {"name": self.name,
+        return {"Type organaistion":self. organaistion,"organaistion_name":self.organaistion_name,"industry":self.industry,"Date of incorportion":self.DOB_incorportion,
+                "name": self.name,
                 "DOB":self.DOB,
                 "email": self.email,
                 "mobile":self.mobile,
@@ -67,25 +76,27 @@ class nomineter(db.Document):
 @app.route('/addrecord', methods=['POST'])
 def create_record():
     record = json.loads(request.data)
-    user =nomineter(name=record['name'],DOB=record["DOB"],
-                    email=record['email'],
-                    mobile=record["mobile"],
-                    pincode=record["pincode"],
-                    boolean_field_with_null=record["Do have aadharcard"],
-                    aadharcard=record["Aadharcard Number"], 
-                    selected_document=record["selected_document"],
-                    
-                    
-                    nominator_identity_doc_number=record["nominator_identity_doc_number"], 
-                    nominee_name=record['nominee_name'],
-                    nominee_DOB=record["nominee_DOB"] ,
-                    nominee_mobile=record["nominee_mobile"],
-                    nominee_email=record["nominee_email"],
-                    nominee_pincode=record["nominee_pincode"],
-                    award_category=record["award_category"],
-                    project_information=record["project_information"]
-                
-                   )
+    user =nomine(organaistion=record["Type organaistion"],organaistion_name=record["organaistion_name"],industry=record["industry"],DOB_incorportion=record["Date of incorportion"],
+                 name=record['name'],
+                 DOB=record["DOB"],
+                 email=record['email'],
+                 mobile=record["mobile"],
+                 pincode=record["pincode"],
+                 boolean_field_with_null=record["Do have aadharcard"],
+                 aadharcard=record["Aadharcard Number"], 
+                 selected_document=record["selected_document"],
+                 
+                 
+                 nominator_identity_doc_number=record["nominator_identity_doc_number"], 
+                 nominee_name=record['nominee_name'],
+                 nominee_DOB=record["nominee_DOB"] ,
+                 nominee_mobile=record["nominee_mobile"],
+                 nominee_email=record["nominee_email"],
+                 nominee_pincode=record["nominee_pincode"],
+                 award_category=record["award_category"],
+                 project_information=record["project_information"]
+                 
+                 )
     user.save()
     return jsonify(user.to_json())
 
